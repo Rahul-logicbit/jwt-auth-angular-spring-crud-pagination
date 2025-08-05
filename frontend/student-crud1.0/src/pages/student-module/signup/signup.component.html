@@ -1,0 +1,189 @@
+<!-- <div class="signup-page">
+  <div class="side-panel">
+    <div class="side-panel-content">
+      <div class="logo">
+        <i class="ph-graduation-cap"></i>
+      </div>
+      <h1>Welcome to the Portal</h1>
+      <p>Unlock your potential. Join our community of learners and take the next step in your educational journey.</p>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="form-container">
+      <div *ngIf="showSuccess" class="success-state">
+        <div class="success-icon">
+          <i class="ph-check-circle"></i>
+        </div>
+        <h2>Account Created!</h2>
+        <p>Welcome aboard! You will be redirected to the Login shortly.</p>
+      </div>
+
+      <form *ngIf="!showSuccess" [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-header">
+          <h2>Create Your Account</h2>
+          <p>Step {{ currentStep }} of 3: {{ stepTitles[currentStep - 1] }}</p>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-bar-inner" [style.width.%]="(currentStep / 3) * 100"></div>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="apiError">{{ apiError }}</div>
+
+        <div *ngIf="currentStep === 1" class="form-step active">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input id="name" type="text" formControlName="name" placeholder="e.g., Jane Doe">
+            <div class="error-message" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+              <span *ngIf="name?.errors?.['required']">Name is required</span>
+              <span *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="course">Your Course</label>
+            <input id="course" type="text" formControlName="course" placeholder="e.g., Computer Science">
+            <div class="error-message" *ngIf="course?.invalid && (course?.dirty || course?.touched)">
+              <span *ngIf="course?.errors?.['required']">Course is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="currentStep === 2" class="form-step active" formGroupName="passwordGroup">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" formControlName="email" placeholder="you@example.com">
+            <div class="error-message" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+              <span *ngIf="email?.errors?.['required']">Email is required</span>
+              <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Create Password</label>
+            <input id="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="Minimum 6 characters">
+            <div class="error-message" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+              <span *ngIf="password?.errors?.['required']">Password is required</span>
+              <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="currentStep === 3" class="form-step active" formGroupName="passwordGroup">
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Your Password</label>
+            <input id="confirmPassword" [type]="passwordVisible ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Re-enter your password">
+            <div class="error-message" *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)">
+              <span *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</span>
+            </div>
+            <div *ngIf="passwordGroup && passwordGroup.errors?.['passwordsMismatch'] && confirmPassword?.dirty" class="error-message">
+              Passwords do not match
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" *ngIf="currentStep > 1" (click)="prevStep()">
+            Back
+          </button>
+          <button type="button" class="btn btn-primary" *ngIf="currentStep < 3" (click)="nextStep()" [disabled]="isStepInvalid()">
+            Next Step <i class="ph-arrow-right"></i>
+          </button>
+          <button type="submit" class="btn btn-primary" *ngIf="currentStep === 3" [disabled]="signupForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Create Account</span>
+            <span *ngIf="isLoading" class="spinner"></span>
+          </button>
+        </div>
+
+        <div class="login-prompt">
+          <span>Already have an account? <a routerLink="/students/login">Log In</a></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<div class="signup-page">
+  <div class="side-panel">
+    <div class="side-panel-content">
+      <div class="logo">
+        <i class="ph-graduation-cap"></i>
+      </div>
+      <h1>Welcome to the Portal</h1>
+      <p>Unlock your potential. Join our community of learners and take the next step in your educational journey.</p>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="form-container">
+      <div *ngIf="showSuccess" class="success-state">
+        <div class="success-icon">
+          <i class="ph-check-circle"></i>
+        </div>
+        <h2>Account Created!</h2>
+        <p>Welcome aboard! You will be redirected to the Login shortly.</p>
+      </div>
+
+      <form *ngIf="!showSuccess" [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-header">
+          <h2>Create Your Account</h2>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="apiError">{{ apiError }}</div>
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input id="name" type="text" formControlName="name" placeholder="e.g., Jane Doe">
+          <div class="error-message" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+            <span *ngIf="name?.errors?.['required']">Name is required</span>
+            <span *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="course">Your Course</label>
+          <input id="course" type="text" formControlName="course" placeholder="e.g., Computer Science">
+          <div class="error-message" *ngIf="course?.invalid && (course?.dirty || course?.touched)">
+            <span *ngIf="course?.errors?.['required']">Course is required</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input id="email" type="email" formControlName="email" placeholder="you@example.com">
+          <div class="error-message" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+            <span *ngIf="email?.errors?.['required']">Email is required</span>
+            <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Create Password</label>
+          <input id="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="Minimum 6 characters">
+          <div class="error-message" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+            <span *ngIf="password?.errors?.['required']">Password is required</span>
+            <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Your Password</label>
+          <input id="confirmPassword" [type]="passwordVisible ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Re-enter your password">
+          <div class="error-message" *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)">
+            <span *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</span>
+          </div>
+          <div *ngIf="signupForm.errors?.['passwordsMismatch'] && confirmPassword?.touched" class="error-message">
+            Passwords do not match
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Create Account</span>
+            <span *ngIf="isLoading" class="spinner"></span>
+          </button>
+        </div>
+
+        <div class="login-prompt">
+          <span>Already have an account? <a routerLink="/students/login">Log In</a></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

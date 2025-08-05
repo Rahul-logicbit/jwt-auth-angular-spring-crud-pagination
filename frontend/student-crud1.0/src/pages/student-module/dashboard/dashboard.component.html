@@ -1,0 +1,128 @@
+<div class="dashboard-wrapper">
+  <main class="dashboard-card">
+    <header class="card-header">
+      <div class="header-title">
+        <h1>Student Dashboard</h1>
+        <p *ngIf="currentUser">Welcome back, <span class="user-name">{{ currentUser.name }}</span>!</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn view-list-btn" [routerLink]="['/students/list']">
+          <i class="ph ph-list-bullets"></i>
+          <span>View Full List</span>
+        </button>
+        <button class="logout-btn" (click)="logout()">
+          <i class="ph ph-sign-out"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </header>
+    
+    <div class="filters-section">
+      <div class="search-container">
+        <i class="ph ph-magnifying-glass"></i>
+        <input type="text" placeholder="Search by name, course, or email..." [formControl]="globalSearchControl">
+      </div>
+      
+      <div class="filter-controls">
+        <select id="course-filter" [formControl]="courseFilterControl" title="Filter by Course">
+          <option value="">All Courses</option>
+          <option *ngFor="let course of uniqueCourses" [value]="course">{{ course }}</option>
+        </select>
+        
+        <select id="sort-field" [formControl]="sortFieldControl" title="Sort by Field">
+          <option value="name">Sort by Name</option>
+          <option value="email">Sort by Email</option>
+          <option value="course">Sort by Course</option>
+        </select>
+        
+        <select id="sort-direction" [formControl]="sortDirectionControl" title="Sort Order">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+        
+        <select id="page-size" [formControl]="pageSizeControl" title="Results per Page">
+          <option [value]="5">5 per page</option>
+          <option [value]="10">10 per page</option>
+          <option [value]="20">20 per page</option>
+          <option [value]="50">50 per page</option>
+        </select>
+        
+        <button class="clear-filters-btn" (click)="clearFilters()" *ngIf="hasActiveFilters()" title="Clear Filters">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="table-container">
+      <div class="loading-overlay" *ngIf="isLoading">
+        <div class="spinner"></div>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="student-table">
+          <thead>
+            <tr>
+              <th (click)="sort('name')" [class.active-sort]="sortField === 'name'">
+                Name <i class="sort-icon ph" [ngClass]="getSortIcon('name')"></i>
+              </th>
+              <th (click)="sort('course')" [class.active-sort]="sortField === 'course'">
+                Course <i class="sort-icon ph" [ngClass]="getSortIcon('course')"></i>
+              </th>
+              <th (click)="sort('email')" [class.active-sort]="sortField === 'email'">
+                Email <i class="sort-icon ph" [ngClass]="getSortIcon('email')"></i>
+              </th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students; trackBy: trackByStudentId">
+              <td>
+                <div class="student-cell">
+                  <div class="avatar">{{ student.name.charAt(0).toUpperCase() }}</div>
+                  <div class="student-info">
+                    <span class="student-name">{{ student.name }}</span>
+                    <span class="student-id">ID: {{ student.id }}</span>
+                  </div>
+                </div>
+              </td>
+              <td><span class="course-badge">{{ student.course }}</span></td>
+              <td>
+                <div class="email-cell">
+                  <i class="ph ph-envelope"></i>
+                  <span>{{ student.email }}</span>
+                </div>
+              </td>
+              </tr>
+            
+            <tr *ngIf="!isLoading && students.length === 0">
+              <td colspan="3" class="empty-state">
+                <i class="ph ph-users-three"></i>
+                <h3>No Students Found</h3>
+                <p>Try adjusting your filters or search terms.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <footer class="card-footer" *ngIf="!isLoading && totalElements > 0">
+      <div class="pagination-info">
+        Page {{ currentPage + 1 }} of {{ totalPages }} 
+        <span class="separator">|</span>
+        Showing {{ getStartIndex() + 1 }}-{{ getEndIndex() }} of {{ totalElements }}
+      </div>
+      
+      <div class="pagination-controls">
+        <button class="pagination-btn" [disabled]="currentPage === 0" (click)="onPageChange(currentPage - 1)" title="Previous Page">
+          <i class="ph ph-caret-left"></i>
+          <span>Previous</span>
+        </button>
+        <button class="pagination-btn" [disabled]="currentPage >= totalPages - 1" (click)="onPageChange(currentPage + 1)" title="Next Page">
+          <span>Next</span>
+          <i class="ph ph-caret-right"></i>
+        </button>
+      </div>
+    </footer>
+  </main>
+  
+  </div>

@@ -1,0 +1,65 @@
+<div class="login-container">
+  <form class="login-card" [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="login-header">
+      <div class="login-logo">
+        <i class="icon-user"></i>
+      </div>
+      <h2>Student Login</h2>
+      <p>Welcome back! Sign in to your account.</p>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group" [ngClass]="{'has-error': email?.invalid && (email?.touched || email?.dirty)}">
+      <label for="email">Email Address</label>
+      <div class="input-icon">
+        <i class="icon-mail"></i>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          formControlName="email"
+          autocomplete="off"
+        />
+      </div>
+      <div class="input-error" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+        <span *ngIf="email?.errors?.['required']">Email is required.</span>
+        <span *ngIf="email?.errors?.['email']">Invalid email address.</span>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group" [ngClass]="{'has-error': password?.invalid && (password?.touched || password?.dirty)}">
+      <label for="password">Password</label>
+      <div class="input-icon password-group">
+        <i class="icon-lock"></i>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          placeholder="Enter your password"
+          formControlName="password"
+          autocomplete="off"
+        />
+        <button type="button" class="icon-eye-btn" (click)="togglePasswordVisibility()" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+          <i [ngClass]="showPassword ? 'icon-eye-closed' : 'icon-eye'"></i>
+        </button>
+      </div>
+      <div class="input-error" *ngIf="password?.invalid && (password?.touched || password?.dirty)">
+        <span *ngIf="password?.errors?.['required']">Password is required.</span>
+        <span *ngIf="password?.errors?.['minlength']">At least 6 characters.</span>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div class="alert-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <!-- Submit -->
+    <button class="login-btn" [disabled]="loginForm.invalid || isLoading" type="submit">
+      <span *ngIf="isLoading" class="loading-spinner"></span>
+      {{ isLoading ? 'Signing In...' : 'Login' }}
+    </button>
+
+    <div class="login-extra-links">
+      <a routerLink="/students/signup">Don't have an account? <strong>Sign up</strong></a>
+    </div>
+  </form>
+</div>

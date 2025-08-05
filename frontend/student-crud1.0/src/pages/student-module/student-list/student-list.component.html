@@ -1,0 +1,48 @@
+<div class="list-container">
+  <div class="header">
+    <h1>Student List</h1>
+    <div class="dashboard-extra-links">
+      <a routerLink="/students/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="state-message">
+    <div class="spinner"></div>
+    <p>Loading students...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="state-message error">
+    <p>{{ errorMessage }}</p>
+    <button class="btn" (click)="loadStudents()">Try Again</button>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage">
+    <div *ngIf="students.length === 0" class="state-message">
+      <p>No students found.</p>
+    </div>
+
+    <table *ngIf="students.length > 0" class="student-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Course</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.course }}</td>
+          <td>{{ student.email }}</td>
+          <td class="actions">
+            <button class="btn btn-secondary" (click)="editStudent(student.id)">Edit</button>
+            <button class="btn btn-danger" (click)="deleteStudent(student.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

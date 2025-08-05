@@ -1,0 +1,108 @@
+:host {
+  font-family: Arial, sans-serif;
+}
+
+.list-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 1rem;
+
+  h1 {
+    margin: 0;
+    color: #333;
+  }
+}
+
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #555;
+  }
+
+  tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  td.actions {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.2s, transform 0.1s;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &.btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+
+  &.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+
+  &.btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+}
+
+.state-message {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+
+  &.error {
+    color: #dc3545;
+  }
+}
+
+// Simple CSS Spinner for loading state
+.spinner {
+  margin: 0 auto 1rem;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

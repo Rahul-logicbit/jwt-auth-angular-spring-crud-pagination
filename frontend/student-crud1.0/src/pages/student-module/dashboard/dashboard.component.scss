@@ -1,0 +1,224 @@
+@use 'sass:color';
+@import url('https://unpkg.com/@phosphor-icons/web@2.0.3/src/css/phosphor.css');
+
+// Variables
+$primary: #4f46e5;
+$primary-light: #eef2ff;
+$danger: #ef4444;
+$danger-light: #fee2e2;
+$bg-color: #f8fafc;
+$card-bg: #ffffff;
+$border-color: #e5e7eb;
+$text-primary: #1f2937;
+$text-secondary: #6b7280;
+$text-muted: #9ca3af;
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+.dashboard-wrapper {
+  background-color: $bg-color;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+.dashboard-card {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: $card-bg;
+  border-radius: 1rem;
+  box-shadow: $shadow-lg;
+  border: 1px solid $border-color;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid $border-color;
+  
+  .header-title {
+    h1 { margin: 0; font-size: 1.75rem; color: $text-primary; font-weight: 700; }
+    p { margin: 0.25rem 0 0; color: $text-secondary; .user-name { color: $primary; font-weight: 600; } }
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.2rem; border-radius: 0.5rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+      border: 1px solid $border-color;
+      text-decoration: none;
+
+      i { font-size: 1.2rem; }
+    }
+
+    .view-list-btn {
+      background-color: $primary-light;
+      color: $primary;
+      border-color: transparent;
+      &:hover { background-color: color.adjust($primary-light, $blackness: 5%); }
+    }
+
+    .logout-btn {
+      background: none;
+      color: $text-secondary;
+      &:hover { background-color: $bg-color; color: $primary; border-color: $primary; }
+    }
+  }
+}
+
+.filters-section {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid $border-color;
+  background-color: color.adjust($bg-color, $lightness: 2%);
+  
+  .search-container {
+    position: relative;
+    margin-bottom: 1rem;
+    i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: $text-secondary; }
+    input {
+      width: 90%; 
+      padding: 0.75rem 1rem 0.75rem 2.75rem; border: 1px solid $border-color;
+      border-radius: 0.5rem; font-size: 1rem; transition: all 0.2s;
+      &:focus { outline: none; border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.2); }
+    }
+  }
+
+  .filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+
+    select {
+      padding: 0.75rem 1rem; border: 1px solid $border-color; border-radius: 0.5rem;
+      font-size: 0.9rem; background-color: $card-bg; cursor: pointer; transition: all 0.2s;
+      &:focus { outline: none; border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.2); }
+    }
+    
+    .clear-filters-btn {
+      display: flex; align-items: center; justify-content: center; width: 38px; height: 38px;
+      background: none; border: 1px solid $border-color; border-radius: 0.5rem;
+      color: $text-secondary; cursor: pointer; transition: all 0.2s;
+      // ✅ FIXED: Changed color-adjust to color.adjust
+      &:hover { color: color.adjust($danger, $lightness: -10%); border-color: color.adjust($danger, $lightness: -10%); background-color: $danger-light; }
+    }
+  }
+}
+
+.table-container {
+  position: relative;
+  min-height: 400px;
+  
+  .loading-overlay {
+    position: absolute; inset: 0; background: rgba(255, 255, 255, 0.8);
+    display: flex; align-items: center; justify-content: center; z-index: 10;
+    .spinner {
+      width: 50px; height: 50px; border-radius: 50%; border: 4px solid rgba($primary, 0.2);
+      border-top-color: $primary; animation: spin 1s linear infinite;
+    }
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  
+  .table-responsive { overflow-x: auto; }
+  
+  .student-table {
+    width: 100%; border-collapse: collapse;
+    thead th {
+      padding: 1rem 1.5rem; text-align: left; font-size: 0.875rem; font-weight: 600;
+      color: $text-secondary; text-transform: uppercase; letter-spacing: 0.05em;
+      white-space: nowrap; cursor: pointer; transition: background-color 0.2s;
+      &:hover { background-color: rgba($primary, 0.05); }
+      &.active-sort { color: $primary; }
+      .sort-icon { margin-left: 0.5rem; font-size: 0.75rem; &.ph-dots-three { color: $text-muted; } }
+    }
+    
+    tbody tr {
+      &:hover { background-color: rgba($primary, 0.02); }
+      td { padding: 1rem 1.5rem; border-top: 1px solid $border-color; }
+    }
+
+    .student-cell {
+      display: flex; align-items: center; gap: 1rem;
+      .avatar {
+        width: 40px; height: 40px; border-radius: 50%; background-color: $primary-light;
+        color: $primary; font-weight: 600; display: flex; align-items: center;
+        justify-content: center; flex-shrink: 0;
+      }
+      .student-info {
+        display: flex; flex-direction: column;
+        .student-name { font-weight: 600; color: $text-primary; }
+        .student-id { font-size: 0.75rem; color: $text-muted; }
+      }
+    }
+    
+    .course-badge {
+      display: inline-block; padding: 0.25rem 0.75rem; background-color: $primary-light;
+      color: $primary; border-radius: 1rem; font-size: 0.875rem; font-weight: 500;
+    }
+    
+    .email-cell { display: flex; align-items: center; gap: 0.5rem; i { color: $text-muted; } }
+
+    .empty-state {
+      text-align: center; padding: 4rem 2rem; color: $text-secondary;
+      i { font-size: 3rem; color: $text-muted; margin-bottom: 1rem; }
+      h3 { margin: 0 0 0.5rem; font-size: 1.25rem; color: $text-primary; }
+    }
+  }
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-top: 1px solid $border-color;
+  background-color: $bg-color;
+  
+  .pagination-info {
+    font-size: 0.9rem;
+    color: $text-secondary;
+    .separator {
+      margin: 0 0.5rem;
+      color: $border-color;
+    }
+  }
+  
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    .pagination-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid $border-color; 
+      background: $card-bg;
+      cursor: pointer;
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      
+      &:hover:not(:disabled) { 
+        border-color: $primary; 
+        color: $primary;
+        background-color: $primary-light;
+      }
+      
+      &:disabled { 
+        opacity: 0.5; 
+        cursor: not-allowed; 
+      }
+    }
+  }
+}

@@ -1,0 +1,132 @@
+<div class="edit-container">
+  <!-- Loading All Students -->
+  <div *ngIf="isLoading" class="state-container">
+    <i class="ph ph-spinner-gap animate-spin text-4xl text-indigo-600"></i>
+    <p>Loading student list...</p>
+  </div>
+
+  <!-- No Students Found -->
+  <div *ngIf="!isLoading && allStudents.length === 0" class="state-container">
+    <i class="ph ph-users text-4xl text-gray-400"></i>
+    <p>No students found. Please add one first.</p>
+  </div>
+
+  <!-- Selector Section -->
+  <div *ngIf="!isLoading && allStudents.length > 0" class="edit-card">
+    <header class="card-header">
+      <h2>Edit Student</h2>
+      <p>Select a student to update their information</p>
+    </header>
+
+    <main class="card-body">
+      <!-- Error Alert -->
+      <div class="alert" *ngIf="apiError">
+        <small><i class="ph ph-warning"></i> {{ apiError }}</small>
+      </div>
+
+      <!-- Student Selector -->
+      <div class="form-group student-selector">
+        <label for="studentSelect">Choose Student</label>
+        <div class="input-wrapper">
+          <i class="icon ph ph-list"></i>
+          <select
+            id="studentSelect"
+            (change)="onStudentSelect($event)"
+            [value]="studentId || ''"
+          >
+            <option value="" disabled selected>Select a student...</option>
+            <option *ngFor="let s of allStudents" [value]="s.id">
+              {{ s.name }} ({{ s.course }})
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Edit Form (only shown when student is selected) -->
+      <form
+        *ngIf="isStudentSelected"
+        [formGroup]="editForm"
+        (ngSubmit)="onSubmit()"
+        class="edit-form"
+      >
+        <!-- Name -->
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <div class="input-wrapper">
+            <i class="icon ph ph-user"></i>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              placeholder="Enter full name"
+            />
+          </div>
+          <div class="validation-error" *ngIf="name?.invalid && name?.touched">
+            <small *ngIf="name?.errors?.['required']">Name is required.</small>
+            <small *ngIf="name?.errors?.['minlength']">
+              Name must be at least 2 characters.
+            </small>
+          </div>
+        </div>
+
+        <!-- Course -->
+        <div class="form-group">
+          <label for="course">Course</label>
+          <div class="input-wrapper">
+            <i class="icon ph ph-book"></i>
+            <input
+              id="course"
+              type="text"
+              formControlName="course"
+              placeholder="e.g., Computer Science"
+            />
+          </div>
+          <div class="validation-error" *ngIf="course?.invalid && course?.touched">
+            <small *ngIf="course?.errors?.['required']">Course is required.</small>
+            <small *ngIf="course?.errors?.['minlength']">
+              Course must be at least 2 characters.
+            </small>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper">
+            <i class="icon ph ph-envelope"></i>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="student@example.com"
+            />
+          </div>
+          <div class="validation-error" *ngIf="email?.invalid && email?.touched">
+            <small *ngIf="email?.errors?.['required']">Email is required.</small>
+            <small *ngIf="email?.errors?.['email']">Please enter a valid email.</small>
+          </div>
+        </div>
+
+        <!-- Submit & Cancel -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="cancel()"
+            [disabled]="isSubmitting"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn-primary" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">Update Student</span>
+            <span *ngIf="isSubmitting">
+              <i class="spinner"></i> Updating...
+            </span>
+          </button>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
